@@ -2,7 +2,7 @@
 
 **Interaction update:** Date is now part of `clock`; the bottom-left position holds the permanent Modules / Undo dock. Every built-in module can be dismissed and restored through the library, with settings for title and opacity plus module-specific controls. See [HUD-Visual-Plan.md](HUD-Visual-Plan.md) for current behavior, limitations and the next graphical pass. The original layout below records the first overhaul.
 
-Open `Assets/Scenes/PersonalARPrototype.unity`, reload the scene if Unity has an older in-memory version, and enter Play Mode. Keep unrelated unsaved scene work separately before reloading.
+Open `Assets/Scenes/PersonalARPrototype.unity`, reload the scene if Unity has an older in-memory version, and enter Play Mode. Keep unrelated unsaved scene work separately before reloading. The scene is Build Settings scene 0, so it is also what an Android/Quest build launches.
 
 ## Layout
 
@@ -43,7 +43,7 @@ Built-in IDs: `identity`, `clock`, `date`, `session`, `workspace`, `objectives`,
 
 ## Validation and demo rehearsal
 
-All nine PersonalAR scripts compile against the project's Unity assemblies with Unity's bundled C# compiler. Serialized-field warnings are expected outside Unity; scene references are assigned. Scene IDs and component wiring were checked. This is not an Editor Play Mode or headset rendering verification.
+All eleven PersonalAR scripts (ten runtime scripts plus the editor preview window) compile against the project's Unity assemblies with Unity's bundled C# compiler. Serialized-field warnings are expected outside Unity; scene references are assigned. Scene IDs and component wiring were checked. This is not an Editor Play Mode or headset rendering verification.
 
 Before presenting:
 

@@ -11,6 +11,19 @@
 
 After the user entered the cable Link session, Play Mode was restarted at approximately 16:13:43. OpenXR successfully progressed through READY, SYNCHRONIZED, VISIBLE, and FOCUSED. Unity created stereo eye textures and its Left Eye mirror displayed the clock and tactical frame. This verifies application/session startup and mirrored rendering. The user's assessment of visibility, readability, and comfort remains pending.
 
+## Build configuration (verified 2026-09-15)
+
+| Setting | Value |
+| --- | --- |
+| Build scenes | `Assets/Scenes/PersonalARPrototype.unity` (scene 0) then `Assets/Scenes/SampleScene.unity`, both enabled |
+| Company / product name | `PersonalAR` / `PersonalAR` |
+| Bundle identifier | `com.personalar.prototype` for Android and Standalone |
+| Quality level | Low, using Standalone Performant Preset with 4x MSAA |
+| XR providers | OpenXR on Android and Standalone; Meta Quest Camera (Passthrough) enabled for both |
+| Android SDK | minimum 34, target 34, ARM64 |
+
+Before this pass, Build Settings listed only `SampleScene`, so an Android build would have launched the template scene instead of the HUD, and the identity fields still carried Unity template defaults (`DefaultCompany`, `com.DefaultCompany.MixedRealityTemplate`, `com.unity.template.mr`). Changing the bundle identifier after an app has been installed on a headset or uploaded to a store needs a reinstall or a new store entry, so confirm the final name before distributing builds.
+
 ## Live test sequence
 
 1. Connect the Quest and open Meta Horizon Link on the PC.
@@ -25,7 +38,7 @@ Select `PersonalAR/HUDAnchor` to adjust Distance, Position Smooth Time, and Rota
 
 Record values you like before stopping Play Mode. Normal scene Inspector changes made during Play Mode are temporary; apply the chosen values again outside Play Mode and save the scene. Code changes can trigger compilation/reloading, so this is a rapid iteration workflow rather than a guarantee of uninterrupted code hot reload.
 
-Initial HUD size: 600 by 300 canvas units at scale 0.001, giving 0.6 by 0.3 metres at distance 1.2 metres. When centred and facing the user this spans approximately 28 by 14 degrees. A 1.5-times scale would span approximately 41 by 21 degrees. These are geometric estimates, not measurements of headset readability or comfort. Game view window size and zoom do not directly describe perceived headset size.
+Initial HUD size (historical baseline): 600 by 300 canvas units at scale 0.001, giving 0.6 by 0.3 metres at distance 1.2 metres. When centred and facing the user this spans approximately 28 by 14 degrees. A 1.5-times scale would span approximately 41 by 21 degrees. These are geometric estimates, not measurements of headset readability or comfort. Game view window size and zoom do not directly describe perceived headset size.
 
 ## Evidence
 
@@ -33,4 +46,4 @@ Unity log: `Logs/Editor.log`, initial corrected-provider attempt around 16:09:33
 
 OpenXR error definition: https://registry.khronos.org/OpenXR/specs/1.1/man/html/xrGetSystem.html
 
-The user subsequently confirmed the headset HUD was visible and requested a larger frame. The saved canvas is now 1600 by 900 at scale 0.001 and distance 1.2 m; see HUD-Controls.md for the first feedback record.
+The user subsequently confirmed the headset HUD was visible and requested a larger frame, which produced a 1600 by 900 canvas during that session. **The saved canvas is now 1000 by 600 at scale 0.001**, with distance 1.2 m and follow values of 0.20 s position smooth time and rotation sharpness 8 (re-verified against the scene on 2026-09-15). See HUD-Controls.md for the first feedback record and [Modular-HUD.md](Modular-HUD.md) for the modular shell that replaced the clock-only build.

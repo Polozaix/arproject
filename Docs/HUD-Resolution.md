@@ -5,7 +5,7 @@
 - The saved active quality index is Low, using Standalone Performant Preset with render scale 1.0 and 4x MSAA. The quality name alone does not indicate the actual XR image resolution.
 - The HUD uses world-space geometry and TextMesh Pro SDF text. Its 1000 x 600 RectTransform describes layout units, not a 1000 x 600 bitmap. Increasing those dimensions alone is not a resolution fix.
 - The font atlas is 1024 x 1024 with bilinear filtering. There is no evidence yet that replacing it would resolve whole-image pixelation.
-- The saved Game view layout has a target size around 871 x 462 and zoom 1.5. This can exaggerate pixelation on the monitor. Saved layout values are not a measurement of the current XR eye buffer.
+- The saved Game view layout, at the time of that check, had a target size around 871 x 462 and zoom 1.5. This can exaggerate pixelation on the monitor. Saved layout values are not a measurement of the current XR eye buffer and change whenever the Game view is resized.
 - User reports pixelation both on the monitor and inside Quest. The precise contribution of eye-buffer resolution, Link compression, display optics and fine UI detail has not been measured.
 
 ## Change made
