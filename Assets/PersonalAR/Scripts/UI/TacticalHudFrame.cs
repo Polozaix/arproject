@@ -5,6 +5,7 @@ namespace PersonalAR.UI
 {
     /// <summary>Optional decorative mesh. No input handling or simulated telemetry.</summary>
     [AddComponentMenu("PersonalAR/UI/Tactical HUD Frame")]
+    [RequireComponent(typeof(CanvasRenderer))]
     public class TacticalHudFrame : MaskableGraphic
     {
         [SerializeField, Range(0.5f, 4f)] private float lineWidth = 1.5f;

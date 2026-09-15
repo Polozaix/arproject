@@ -821,6 +821,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 900100010}
+  - component: {fileID: 900100011}
   - component: {fileID: 621945894}
   - component: {fileID: 621945897}
   - component: {fileID: 621945896}
@@ -1226,8 +1227,9 @@ MonoBehaviour:
   head: {fileID: 35696110}
   distance: 1.2
   verticalOffset: 0
-  positionSmoothTime: 0.07
-  rotationSharpness: 16
+  positionSmoothTime: 0.20
+  rotationSharpness: 8
+  maximumAngularLag: 12
 --- !u!1 &900100002
 GameObject:
   m_ObjectHideFlags: 0
@@ -2402,6 +2404,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1634846702}
   - component: {fileID: 900100001}
+  - component: {fileID: 900100012}
   m_Layer: 0
   m_Name: HUDAnchor
   m_TagString: Untagged
@@ -2433,6 +2436,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 9177915868812651432, guid: 86a5bf68cb51f4e44bd3893bd22a2ba7, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6484816944661230508, guid: 86a5bf68cb51f4e44bd3893bd22a2ba7, type: 3}
+      propertyPath: m_ClearFlags
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6484816944661230508, guid: 86a5bf68cb51f4e44bd3893bd22a2ba7, type: 3}
+      propertyPath: m_BackGroundColor.a
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4651481726637322224, guid: 86a5bf68cb51f4e44bd3893bd22a2ba7, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2181601298465818192, guid: 86a5bf68cb51f4e44bd3893bd22a2ba7, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -2583,7 +2602,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9101303414712244912, guid: 86a5bf68cb51f4e44bd3893bd22a2ba7, type: 3}
       propertyPath: m_OnARPassthroughFeatureChanged.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9101303414712244912, guid: 86a5bf68cb51f4e44bd3893bd22a2ba7, type: 3}
       propertyPath: m_OnARBoundingBoxFeatureChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
@@ -2851,7 +2870,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 996bc95e1b6dfc847aead2de66dc4a91, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -4415,3 +4434,31 @@ MonoBehaviour:
   headCamera: {fileID: 35696109}
   fontSource: {fileID: 2118734064}
   panelDistance: 1.2
+
+--- !u!114 &900100011
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 621945893}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aac54261f052441fb4666b32804bd096, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::PersonalAR.UI.ModularHud
+  fontSource: {fileID: 2118734064}
+  objectives: {fileID: 900100010}
+--- !u!114 &900100012
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1634846701}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a45dfb0c405849eb8197912c601ee47e, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::PersonalAR.XR.HudRenderQuality
+  desktopRenderScale: 1.25

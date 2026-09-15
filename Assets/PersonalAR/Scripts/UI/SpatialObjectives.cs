@@ -26,6 +26,42 @@ namespace PersonalAR.UI
         private TMP_FontAsset font;
         private static readonly Color Cyan = new Color(0.35f, 0.94f, 1f);
         private static readonly Color Ink = new Color(0.025f, 0.055f, 0.085f, 0.97f);
+        public int ObjectiveCount => objectives.Length;
+        public int CompletedCount { get { int count = 0; foreach (var task in objectives) if (task.Completed) count++; return count; } }
+        public int NextIncomplete { get { for (int i = 0; i < objectives.Length; i++) if (!objectives[i].Completed) return i; return 0; } }
+        public string NextTitle => CompletedCount == ObjectiveCount ? "Everything is complete." : objectives[NextIncomplete].Title;
+        public event System.Action<UnityAction> ViewDismissed;
+        private float panelOpacity = .97f;
+
+        public void SetPanelOpacity(float opacity)
+        {
+            panelOpacity = Mathf.Clamp01(opacity);
+            foreach (var panel in new[] { list, detail })
+            {
+                if (panel == null) continue;
+                var surface = panel.GetComponent<HudSurface>();
+                if (surface != null) { var tint = surface.color; tint.a = panelOpacity; surface.color = tint; }
+                foreach (var image in panel.GetComponentsInChildren<Image>(true))
+                {
+                    var tint = image.color;
+                    tint.a = panelOpacity < .97f ? .40f : .98f;
+                    image.color = tint;
+                }
+            }
+        }
+
+        private void Dismiss(RectTransform panel)
+        {
+            if (panel == null) return;
+            panel.gameObject.SetActive(false);
+            ViewDismissed?.Invoke(() => { if (panel != null) Place(panel); });
+        }
+
+        public void DismissAll()
+        {
+            if (list != null && list.gameObject.activeSelf) Dismiss(list);
+            if (detail != null && detail.gameObject.activeSelf) Dismiss(detail);
+        }
 
         private void Start()
         {
@@ -46,9 +82,10 @@ namespace PersonalAR.UI
             launcher.anchorMin = launcher.anchorMax = new Vector2(0.5f, 0);
             launcher.pivot = new Vector2(0.5f, 0.5f);
             launcher.anchoredPosition = new Vector2(0, -32);
+            if (GetComponent<ModularHud>() != null) launcher.gameObject.SetActive(false);
             list = Panel("Objectives panel");
             Label(list, "Section", "PERSONAL AR  /  OBJECTIVES", new Vector2(24, -18), new Vector2(470, 34), 19, Cyan);
-            Button(list, "Close list", "X", new Vector2(560, -12), new Vector2(56, 48), () => list.gameObject.SetActive(false));
+            Button(list, "Close list", "X", new Vector2(560, -12), new Vector2(56, 48), () => Dismiss(list));
             countLabel = Label(list, "Progress", "", new Vector2(24, -74), new Vector2(590, 36), 25, Color.white);
             for (int i = 0; i < objectives.Length; i++)
             {
@@ -62,14 +99,15 @@ namespace PersonalAR.UI
             Label(header, "Handle label", "HOLD TO MOVE  /  FLICK TO DISMISS", new Vector2(20, -12), new Vector2(520, 34), 18, Cyan);
             var handle = header.gameObject.AddComponent<SpatialPanelHandle>();
             handle.panel = detail;
-            handle.dismissed = () => detail.gameObject.SetActive(false);
-            Button(detail, "Close detail", "X", new Vector2(560, -6), new Vector2(56, 46), () => detail.gameObject.SetActive(false));
+            handle.dismissed = () => Dismiss(detail);
+            Button(detail, "Close detail", "X", new Vector2(560, -6), new Vector2(56, 46), () => Dismiss(detail));
             detailTitle = Label(detail, "Title", "", new Vector2(24, -78), new Vector2(590, 58), 28, Color.white);
             detailBody = Label(detail, "Description", "", new Vector2(24, -150), new Vector2(592, 220), 23, new Color(0.85f, 0.92f, 0.95f));
             var complete = Button(detail, "Toggle completion", "", new Vector2(24, -385), new Vector2(300, 54), ToggleComplete);
             completeLabel = complete.GetComponentInChildren<TMP_Text>();
             Button(detail, "Back to objectives", "OBJECTIVES", new Vector2(350, -385), new Vector2(266, 54), ShowList);
             detail.sizeDelta = new Vector2(640, 465);
+            SetPanelOpacity(panelOpacity);
             Refresh();
             list.gameObject.SetActive(false);
             detail.gameObject.SetActive(false);
@@ -111,7 +149,8 @@ namespace PersonalAR.UI
             p.sizeDelta = new Vector2(640, 430);
             p.localScale = Vector3.one * 0.0012f;
             var c = p.GetComponent<Canvas>(); c.renderMode = RenderMode.WorldSpace; c.worldCamera = headCamera;
-            var bg = p.gameObject.AddComponent<Image>(); bg.color = Ink;
+            var bg = p.gameObject.AddComponent<HudSurface>();
+            var tint = Ink; tint.a = panelOpacity; bg.color = tint;
             return p;
         }
         private RectTransform Box(Transform parent, string name, Vector2 pos, Vector2 size, Color color)
@@ -139,7 +178,7 @@ namespace PersonalAR.UI
         }
         private void OnDisable()
         { if (list != null) list.gameObject.SetActive(false); if (detail != null) detail.gameObject.SetActive(false); if (launcher != null) launcher.gameObject.SetActive(false); }
-        private void OnEnable() { if (launcher != null) launcher.gameObject.SetActive(true); }
+        private void OnEnable() { if (launcher != null) launcher.gameObject.SetActive(GetComponent<ModularHud>() == null); }
         private void OnDestroy()
         { if (list != null) Destroy(list.gameObject); if (detail != null) Destroy(detail.gameObject); if (launcher != null) Destroy(launcher.gameObject); }
     }

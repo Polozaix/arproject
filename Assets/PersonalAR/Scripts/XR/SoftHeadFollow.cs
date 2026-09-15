@@ -15,6 +15,7 @@ namespace PersonalAR.XR
         [SerializeField] private float positionSmoothTime = 0.10f;
         [SerializeField] private float rotationSharpness = 12f;
 
+        [SerializeField, Range(1f, 30f)] private float maximumAngularLag = 12f;
         private Vector3 velocity;
         private bool positioned;
 
@@ -51,6 +52,13 @@ namespace PersonalAR.XR
                 Time.unscaledDeltaTime
             );
 
+            // Bound angular drift and keep a constant viewing distance through fast turns.
+            Vector3 direction = transform.position - head.position;
+            Vector3 desired = targetPosition - head.position;
+            direction = Vector3.RotateTowards(desired.normalized, direction.normalized,
+                maximumAngularLag * Mathf.Deg2Rad, 0f);
+            transform.position = head.position + direction * desired.magnitude;
+
             Quaternion targetRotation = head.rotation;
 
             float rotationT =
@@ -61,6 +69,9 @@ namespace PersonalAR.XR
                 targetRotation,
                 rotationT
             );
+            transform.rotation = Quaternion.RotateTowards(targetRotation, transform.rotation, maximumAngularLag);
         }
+
+        public void Recenter() { positioned = false; velocity = Vector3.zero; }
     }
 }
