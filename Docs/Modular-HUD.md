@@ -37,6 +37,34 @@ Register rejects duplicate IDs, invalid slots and occupied slots. Unregister des
 
 Built-in IDs: `identity`, `clock`, `date`, `session`, `workspace`, `objectives`, `controls`, `focus`, `activity`.
 
+## Inspecting and editing the runtime HUD in Play Mode
+
+The shell is generated at runtime, so in Play Mode every view appears in the Hierarchy under `PersonalAR/HUDAnchor/HUD/Modular shell`. Generated objects are named after their parent, which makes each element individually selectable and editable instead of a list of identical `Label` entries:
+
+```text
+Modular shell
+  clock                 module card, named after its module id
+    heading
+    close (X)
+      label
+    time
+    date
+    ...
+  Module library        inactive until Modules is pressed
+    heading
+    row: clock
+    row: clock show / hide
+    row: clock settings
+      label
+```
+
+- Nothing uses `HideInHierarchy`, so hidden modules, the library and the objectives panels stay selectable while inactive. Use the Hierarchy's inactive-object visibility toggle to see them greyed out.
+- The detached objective list and detail card are siblings of `Modular shell` on the same canvas.
+- Modules registered through `Register` keep their own prefab names, because the shell never renames supplied content.
+- `ModularHud` now exposes **Play Mode Inspection > Pause Live Text Updates**. With it on, the 0.5 s refresh stops writing the clock, date, session timer and task text, so a label edited by hand in Play Mode keeps the text you typed. Live time and task counts freeze while it is enabled, so turn it back off for normal testing.
+- Inspector values changed in Play Mode are temporary. Record what you like, then copy it into the serialized fields or the builder before leaving Play Mode, as described in [Quest-Link-Testing.md](Quest-Link-Testing.md).
+- These objects exist only at runtime: they are not saved into the scene, and the HUD is still not a drag-and-drop authoring system. To judge layout without entering Play Mode, use [HUD-Editor-Preview.md](HUD-Editor-Preview.md).
+
 ## Motion
 
 `HUDAnchor/SoftHeadFollow`: distance 1.2 m, position smooth time 0.20 seconds, rotation sharpness 8, maximum angular lag 12 degrees. The follower keeps the shell at its viewing radius, bounds direction and rotation lag, and immediately places it on initial activation or recenter. Unscaled time keeps motion independent of time scale. These replace the earlier 0.07 / 16 starting values described in HUD-Controls.md.
@@ -53,5 +81,6 @@ Before presenting:
 4. Move and dismiss a detail card, then reopen it; check completion is retained.
 5. Try slow turns, fast turns, looking up/down, translation and Recenter. Adjust smoothing in the headset if the panel feels distracting.
 6. Check text and panel contrast against both bright and dark surroundings, with all modules visible. Re-enable the HUD and confirm state is retained.
+7. Select a generated child in the Play Mode Hierarchy to confirm the names identify each element (for example `clock / time`), and enable **Pause Live Text Updates** before hand-editing label text.
 
 Headset readability, comfort, frame rate and passthrough appearance remain unverified for this revision.

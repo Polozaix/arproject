@@ -172,7 +172,7 @@ namespace PersonalAR.UI
             var r = Box(parent, name, pos, size, new Color(0.055f, 0.14f, 0.19f, 0.98f));
             var button = r.gameObject.AddComponent<Button>(); button.targetGraphic = r.GetComponent<Image>();
             var colors = button.colors; colors.highlightedColor = new Color(0.45f, 0.95f, 1f); colors.pressedColor = new Color(0.2f, 0.7f, 0.8f); button.colors = colors;
-            var textLabel = Label(r, "Label", text, new Vector2(14, -6), size - new Vector2(28, 12), 22, Color.white);
+            var textLabel = Label(r, name + " label", text, new Vector2(14, -6), size - new Vector2(28, 12), 22, Color.white);
             textLabel.alignment = TextAlignmentOptions.MidlineLeft;
             button.onClick.AddListener(action); return r;
         }
