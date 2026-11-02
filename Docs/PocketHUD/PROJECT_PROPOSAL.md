@@ -40,7 +40,7 @@ Example **planned** event schema (subject to firmware implementation):
 
 **Priority A — sufficient by itself**
 
-- **1 × CrowPanel Advance 2.4-inch ESP32-S3 HMI Display**, SKU **DIS01624A-1**, [official product page](https://www.elecrow.com/crowpanel-advance-2-4-hmi-esp32-320x240-ips-ai-display-artificial-intelligent-touchscreen-1.html).
+- **1 × CrowPanel Advance 2.4-inch ESP32-S3 HMI Display**, SKU **DIS01624A-1**, [official product page](https://m.elecrow.com/pages/shop/product/details?id=207959).
 - Why: 320×240 IPS touchscreen, integrated ESP32-S3, Wi-Fi/BLE and LVGL/Arduino compatibility. Lets one board cover rendering, communication and input. As listed online around 2 Nov 2026: **from US$19.90**; pricing and UK shipping subject to confirmation.
 
 **Priority B — optional comparison sample**
