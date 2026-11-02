@@ -31,7 +31,7 @@ ESP32-S3 + 2.4-inch CrowPanel touchscreen
      └── logging for test measurements (later)
 ```
 
-Request: one **Elecrow CrowPanel Advance 2.4-inch ESP32-S3 HMI** (SKU DIS01624A-1), [official product page](https://www.elecrow.com/crowpanel-advance-2-4-hmi-esp32-320x240-ips-ai-display-artificial-intelligent-touchscreen-1.html).
+Request: one **Elecrow CrowPanel Advance 2.4-inch ESP32-S3 HMI** (SKU DIS01624A-1), [official product page](https://m.elecrow.com/pages/shop/product/details?id=207959).
 
 Optional, only if available: one **Elecrow CrowPanel 1.28-inch round ESP32-C3** (SKU DIS12824D), [official product page](https://www.elecrow.com/crowpanel-esp32-display-1-28-r-inch-240-240-round-ips-display-capacitive-touch-spi-screen.html). It enables a second form-factor study. The main project works with the 2.4-inch unit alone.
 
